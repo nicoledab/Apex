@@ -1,0 +1,834 @@
+
+
+<aura:component description="ChangeInfoDetailView" controller="ChangeInfoDetailViewController"
+                implements="force:hasRecordId,force:appHostable,lightning:availableForFlowActions,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:lightningQuickActionWithoutHeader,force:hasSObjectName,lightning:actionOverride"
+                access="global">
+    <aura:attribute name="objRD" type="Object" default=""/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="recordTypeName" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.fnInit}" />
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:10px">
+        <span class="slds-truncate slds-p-horizontal_small" title="수신동의">후원자 정보</span>
+    </h3>
+
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">CP 후원자 이름</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.ContactName__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">회원구분</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.ContactType__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">주민번호 앞자리</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.SNOFirst__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">사업자번호</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.BusinessNo__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <aura:if isTrue="{!v.recordTypeName == 'F2F'}">
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">생년월일</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.BirthDate__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    </aura:if>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">핸드폰</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.Phone__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">Email</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.Email__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">내/외국인</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.Nationality__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">성별</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.Sex__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:10px">
+        <span class="slds-truncate slds-p-horizontal_small" title="주소정보">주소 정보</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">우편번호</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.PostalCode__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">도로명 주소</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.StreetAddr__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">도로명 상세 주소</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.DetailAddr__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <aura:if isTrue="{!v.recordTypeName == 'F2F'}">
+        <lightning:layout class="">
+            <lightning:layoutItem size="6" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">DM 우편번호</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.DMPostalCode__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">DM 성명</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.DMName__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout class="">
+            <lightning:layoutItem size="12" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">DM 도로명 주소</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.DMStreetAddr__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout class="">
+            <lightning:layoutItem size="12" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">DM 도로명 상세 주소</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.DMDetailAddr__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:10px">
+        <span class="slds-truncate slds-p-horizontal_small" title="주소정보">신청자 정보</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="5" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">신청자명</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AssistantName__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="7" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">신청자 <br/> 핸드폰번호</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AssistantPhone__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="5" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">신청자 <br/> 생년월일</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AssistantBirthday__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="7" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">신청자 <br/> 후원자관계</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AssistantRelation__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:10px">
+        <span class="slds-truncate slds-p-horizontal_small" title="수신동의">캠페인 소식 수신동의</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">모바일<br/>수신동의</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static"><lightning:input type="checkbox" checked="{!v.objRD.IsAgreeSMS__c}" disabled="true"/></div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">이메일<br/>수신동의</span>
+                    <div class="slds-form-element__control">
+                        <lightning:input type="checkbox" checked="{!v.objRD.IsAgreeEDM__c}" disabled="true"/>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">우편<br/>수신동의</span>
+                    <div class="slds-form-element__control">
+                        <lightning:input type="checkbox" checked="{!v.objRD.IsAgreeGiro__c}" disabled="true"/>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <aura:if isTrue="{!v.recordTypeName == 'DRTV' || v.recordTypeName == 'Leadgen'}">
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="모든연락거부">모든연락거부</span>
+    </h3>
+    <lightning:layout>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">모바일<br/>연락거부</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static"><lightning:input type="checkbox" checked="{!v.objRD.NotAgreeSMS__c}" disabled="true"/></div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">이메일<br/>연락거부</span>
+                    <div class="slds-form-element__control">
+                        <lightning:input type="checkbox" checked="{!v.objRD.NotAgreeEDM__c}" disabled="true"/>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">우편<br/>연락거부</span>
+                    <div class="slds-form-element__control">
+                        <lightning:input type="checkbox" checked="{!v.objRD.NotAgreeGiro__c}" disabled="true"/>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">전화<br/>연락거부</span>
+                    <div class="slds-form-element__control">
+                        <lightning:input type="checkbox" checked="{!v.objRD.NotAgreeCall__c}" disabled="true"/>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    </aura:if>
+
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="기타수신동의">기타 수신동의</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">개인정보<br/>수집이용동의</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static"><lightning:input type="checkbox" checked="{!v.objRD.IsPersonalInfoAgree__c}" disabled="true"/></div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">국세청 연말정산<br/>간소화서비스이용</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static"><lightning:input type="checkbox" checked="{!v.objRD.IsTaxService__c}" disabled="true"/></div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">주민등록번호<br/>뒷자리</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.SNOLast__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <aura:if isTrue="{!v.recordTypeName == 'DRTV' || v.recordTypeName == 'Leadgen'}">
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">기부금영수증<br/>우편수령</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static"><lightning:input type="checkbox" checked="{!v.objRD.IsDonationReceiptPost__c}" disabled="true"/></div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    </aura:if>
+
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="후원내역">CP 후원약속 정보</span>
+    </h3>
+    <aura:if isTrue="{!v.recordTypeName == 'DRTV' || v.recordTypeName == 'Leadgen'}">
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">후원분야코드</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.F2FCode}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">채널</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.F2FChannelL3_DRTV__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">입금시기</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.DepositTime__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">약정금액(선택)</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.RDAmountPL__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">약정금액</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.RDAmount__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">후원종료예정일(선택)</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.ExpectedEndDatePL__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">후원종료예정일</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.ExpectedEndDate__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    </aura:if>
+    <aura:if isTrue="{!v.recordTypeName == 'F2F'}">
+        <lightning:layout class="">
+            <lightning:layoutItem size="6" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">후원분야</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.F2FCodeLv1__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">CP 후원약속 이름</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.Name}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout class="">
+            <lightning:layoutItem size="6" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">후원금액</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.RDAmount__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">후원종료예정일</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!v.objRD.ExpectedEndDate__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+    <lightning:layout class="">
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">기타사항</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.Etc__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="납부방법정보">CP 납부방법 정보</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">납부방법</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.PaymentRecordlType__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="납부방법정보">CMS자동이체 / 신용카드 (공통 입력사항)</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">은행/카드사</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.BankCardName}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">예금주명/<br/>카드소유자명</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AccountName__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">계좌번호/카드번호</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AccountNo__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">생년월일/<br/>사업자등록번호</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.ConfirmInfo__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="납부방법정보">CMS자동이체(추가 입력사항)</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">정기후원일</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.PayCycle__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">CMS 이용약관동의</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning:input type="checkbox" checked="{!v.objRD.IsCMSAgree__c}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">초기결제 미진행</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning:input type="checkbox" checked="{!v.objRD.IsNotInitial__c}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">증빙파일 유형</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.EvidenceType__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">계좌실명인증여부</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning:input type="checkbox" checked="{!v.objRD.IsCertified__c}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">증빙파일 확장자</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.EvidenceExtension__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">증빙파일 PATH</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.EvidencePath__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="납부방법정보">신용카드 (추가 입력사항)</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">유효일자 월</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.ExpireMM__c}   </div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">유효일자 연도</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.ExpireYY__c}   </div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <aura:if isTrue="{!v.recordTypeName == 'DRTV' || v.recordTypeName == 'Leadgen'}">
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="납부방법정보">무통장 / 가상계좌 / 지로</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">무통장 입금계좌</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.SCKAccount}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">가상계좌번호</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.VirtualAccountNo}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">지로입금시기</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.GiroDepositTime__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    </aura:if>
+
+    <h3 class="slds-section__title slds-theme_shade" style="margin-top:20px">
+        <span class="slds-truncate slds-p-horizontal_small" title="납부방법정보">해외결연 정보</span>
+    </h3>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">아시아<br/>결연아동 수</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AsianChildren__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">아프리카<br/>결연아동 수</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AfricanChildren__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">지역무관<br/>결연아동 수</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.AnyChildren__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">서신언어</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.LetterLang__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="">
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">영문성명(성)</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.EngLastName__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="horizontal-small">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <span class="slds-form-element__label">영문성명(이름)</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{!v.objRD.EngFirstName__c}</div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

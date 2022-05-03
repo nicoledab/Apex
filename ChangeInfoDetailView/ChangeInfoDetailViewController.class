@@ -1,0 +1,47 @@
+
+
+public with sharing class ChangeInfoDetailViewController {
+
+    @AuraEnabled
+    public static List<SObject> getInitData(String strId) {
+        System.debug('strRDid : ' + strId);
+        List<SObject> listSobject = new List<SObject>();
+
+        F2FChangeInfo__c objCI = new F2FChangeInfo__c();
+        objCI = [
+                SELECT Id, F2FRD__c, RecordType.Name  
+                FROM F2FChangeInfo__c
+                WHERE Id = :strId
+                LIMIT 1
+        ];
+
+        listSobject.add(objCI);
+
+        F2FRD__c objF2FRD = new F2FRD__c();
+        objF2FRD = [
+                SELECT  Id, Name, RecordTypeId, AfricanChildren__c, AnyChildren__c, AsianChildren__c, Campaign__c,
+                        DoNotReceiveLetter__c, Etc__c, F2FPaymentType__c, LetterLang__c, PayCycle__c, Product__c, Project__c,
+                        RDAmount__c, ExpireYY__c, IsNotInitial__c, RecurringDonation__c, F2FChannelL1__c, F2FChannelL2__c,
+                        F2FChannelL3__c, ExpectedEndDate__c, SNOFirst__c, SNOLast__c, AccountName__c, AccountNo__c, AssistantBirthday__c,
+                        AssistantNameLU__c, AssistantName__c, AssistantPhone__c, AssistantRelation__c, BankCardName__c, BirthDate__c, BusinessNo__c,
+                        DepositTime__c, CMSEvidence__c, ConfirmInfo__c, ContactName__c, ContactType__c, Contact__c,
+                        DMDetailAddr__c, DMName__c, DMPostalCode__c, DMStreetAddr__c, DetailAddr__c, Email__c, EngFirstName__c, EngLastName__c,
+                        BillingKey__c, fm_IsPaid__c, F2FSchedule__c, IsAgreeEDM__c, IsAgreeGiro__c, IsAgreeSMS__c, IsCMSAgree__c, IsPersonalInfoAgree__c,
+                        IsTaxService__c, MobilePhoneType__c, Nationality__c, PaymentRecordlType__c, PaymentType__c, Phone__c, PostalCode__c, Sex__c,
+                        StreetAddr__c, F2FCodeLv1__c, F2FCodeLv2__c, CodeRecordType__c, City__c, DMCity__c, DMProvince__c, IsMig__c, Province__c,
+                        fm_Place__c, IsCMSAgreeDT__c, PersonalInfoAgreeDT__c, ServiceAgreeDT__c, EvidenceExtension__c, EvidencePath__c, ExpireMM__c,
+                        ru_BillingDonationCnt__c, ru_DepositDonationCnt__c, F2FChannelL3_DRTV__c, IsServiceAgree__c, NotAgreeCall__c, NotAgreeEDM__c,
+                        NotAgreeGiro__c, NotAgreeSMS__c, SCKAccount__c, VirtualAccountNo__c, IsCertified__c, F2FCode__c, EvidenceType__c, ExpectedEndDatePL__c,
+                        RDAmountPL__c, fm_Category1__c, fm_Category2__c, fm_Category3__c, IsDonationReceiptPost__c, GiroDepositTime__c, BankCardName__r.Name,
+                        F2FCode__r.Name, VirtualAccountNo__r.Name, SCKAccount__r.Name, RecordType.Name
+                FROM F2FRD__c
+                WHERE Id = :objCI.F2FRD__c
+        ];
+
+        listSobject.add(objF2FRD);
+        System.debug('objF2FRD : ' + objF2FRD);
+
+        return listSobject;
+    }
+
+}
