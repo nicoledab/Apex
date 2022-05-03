@@ -1,0 +1,32 @@
+//청구내역이 생성되었을 때,
+//후원의 출금중지사유(RecurringDonation__c  )  가 '해지'이거나 '상품변경'이면
+//청구내역 (Donation__c  ) 의 상태(Stage__c) ** 를 '출금중지(납부불필요)'로 업데이트
+
+
+private void doStatusWithdrawalEtc() {
+        Set<Id> setTargetId = new Set<Id>();
+        List<Donation__c> listTarget = new List<Donation__c>();
+
+        for (Donation__c obj : listNew) {  // 조건문 범위 정보 알기 (최대한 줄이기)
+            if(obj.RecurringDonation__c != null) {
+                setTargetId.add(obj.RecurringDonation__c);
+                listTarget.add(obj);
+            }
+        }
+        if(!setTargetId.isEmpty()) {  //후원탭
+            List<RecurringDonation__c> listRD = new List<RecurringDonation__c>();
+            listRD = [
+                    SELECT Id
+                    FROM RecurringDonation__c
+                    WHERE Id IN :setTargetId
+                    AND (StopWithdrawalDescription__c ='Cancel' OR StopWithdrawalDescription__c ='ProductChange')
+            ];
+
+            if(!listRD.isEmpty()) {
+                for(Donation__c  objTarget : listTarget){
+                    objTarget.Stage__c  = 'WithdrawEtc';
+                }
+            }
+        }
+
+    }
