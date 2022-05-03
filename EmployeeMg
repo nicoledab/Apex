@@ -1,0 +1,76 @@
+
+//직원관리 오브젝트에서 퇴사여부 체크하면 퇴사직원 오브젝트에 넣기
+    
+public with sharing class EmployeeMg  extends TriggerHandler  {
+    private List<EmployeeBook__c> listNew { get; set; } //list는 for로 !
+    private List<EmployeeBook__c> listOld { get; set; }
+    private Map<Id, EmployeeBook__c> mapNew { get; set; }
+    private Map<Id, EmployeeBook__c> mapOld { get; set; }
+
+
+    public EmployeeMg() {
+        listNew = (List<EmployeeBook__c>) Trigger.new;
+        listOld = (List<EmployeeBook__c>) Trigger.old;
+        mapNew = (Map<Id, EmployeeBook__c>) Trigger.newMap;
+        mapOld = (Map<Id, EmployeeBook__c>) Trigger.oldMap;
+    }
+
+    public override void afterUpdate() {
+        EmployeeMgTGR();
+    }
+
+    private void EmployeeMgTGR() {
+        Set<String> settId = new Set<String>();
+        List<EmployeeBook__c> listTarget = new List<EmployeeBook__c>();
+
+        for (EmployeeBook__c obj : listNew) {
+            if(obj.isResignation__c == true ) {
+                listTarget.add(obj);
+                settId.add(obj.Id);
+            }
+        }
+        if(!listTarget.isEmpty()) {
+            Set<String> setREBtId = new Set<String>();
+
+            List<ResignationEmployeeBook__c> ResignationEmployeeB = new List<ResignationEmployeeBook__c>();
+            ResignationEmployeeB = [
+                    SELECT  Id, Name, Name__c, Email__c, EntryDate__c, ResignationDate__c, Rank__c, Phone__c
+                    FROM    ResignationEmployeeBook__c
+                    WHERE   Name__c = :settId
+            ];
+
+            if(!ResignationEmployeeB.isEmpty()) {
+                for (ResignationEmployeeBook__c obj : ResignationEmployeeB) {
+                    setREBtId.add(obj.Name__c);
+                }
+            }
+
+            List<ResignationEmployeeBook__c> REB22 = new List<ResignationEmployeeBook__c>();
+
+            DateTime dT;
+            for (EmployeeBook__c obj : listTarget) {
+                if (!setREBtId.contains(obj.Id)) {
+
+                    //datetime to date 형변환
+                    dT = obj.EntryDateTime__c;
+                    Date myDate = date.newinstance(dT.year(), dT.month(), dT.day());
+                    Date DT2 = date.today(); // 퇴사일
+
+                    ResignationEmployeeBook__c  rRRRR = new ResignationEmployeeBook__c(
+                            //  Id = obj.id,
+                            Name = obj.Name,
+                            Name__c = obj.Name__c,
+                            Email__c = obj.Email__c,
+                            EntryDate__c = myDate ,
+                            ResignationDate__c = DT2,
+                            Rank__c = obj.Rank__c,
+                            Phone__c = obj.Phone__c
+                    );
+                    REB22.add(rRRRR);
+                }
+            }
+            if(!REB22.isEmpty()) insert REB22;
+        }
+    } //private void EmployeeMgTGR()
+
+}
