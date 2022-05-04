@@ -1,0 +1,10 @@
+<aura:component description="LetterMakePdfBtn" controller="LetterMakePDFController">
+
+    <aura:attribute name="isPDFCk" type="Boolean" default="false" />
+    <aura:attribute name="downloadUrl" type="String"/>
+    <aura:attribute name="listSelectedId" type="List"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.fnInit}" />
+    <aura:handler name="change" value="{!v.isPDFCk}" action="{!c.fnCreatedPDF}" />
+
+</aura:component>

@@ -1,0 +1,78 @@
+/************************************************************************************
+ * Description :
+ * Ver      Date           Author          Modification
+ * ===================================================================================
+   1.0      2022-04-12     hs.jung          Create
+*************************************************************************************/
+@IsTest
+private class LetterMakePDFController_test {
+    @IsTest
+    static void testBehavior() {
+        test.startTest();
+        Test.setMock(HttpCalloutMock.class, new HttpCalloutSuccessMock());
+
+        List<Contact> contacts = TestDataFactory.createContacts(1);
+        PageReference pageRef = ApexPages.currentPage();
+
+        Test.setCurrentPage(pageRef);
+        ApexPages.StandardSetController sc = new ApexPages.StandardSetController(contacts);
+        new LetterMakePDFController(sc);
+
+        Letter__c objLetter = new Letter__c();
+        objLetter.TextLetter__c = 'testests';
+        objLetter.Type__c = '환영편지';
+        insert objLetter;
+
+        Letter__c objLetter1 = new Letter__c();
+        objLetter1.TextLetter__c = 'testests';
+        objLetter1.Type__c = 'PAL';
+        insert objLetter1;
+
+        List<String> letterId = new List<String>();
+        letterId.add(objLetter.Id);
+
+        LetterPicture__c objLetterPicture = new LetterPicture__c();
+        objLetterPicture.Name = 'test';
+        objLetterPicture.isPDF__c = true;
+        objLetterPicture.Letter__c = objLetter.Id;
+        insert objLetterPicture;
+
+        String fRequestBody = 'fRequestBodytestest';
+        
+        Blob bodyBlob=Blob.valueOf('Unit Test Attachment Body');
+        
+        Attachment objAttachment = new Attachment();
+        objAttachment.ParentId = objLetter.Id;
+        objAttachment.ContentType = 'application/pd';
+        objAttachment.Name = 'test';
+        objAttachment.Body = bodyBlob;
+        insert objAttachment;
+
+        System.debug('letterId>>>>' + letterId);
+        LetterMakePDFController.doValidationCheck( letterId, 'actionName');
+        LetterMakePDFController.doCreatedPDF(letterId);
+        LetterMakePDFController.getInitData(letterId);
+        LetterMakePDFController.serverCallOut( fRequestBody, objLetter.Id);
+
+        test.stopTest();
+    }
+
+    private class HttpCalloutSuccessMock implements HttpCalloutMock {
+        public HttpResponse respond(HttpRequest request) {
+            HttpResponse response = newResponse(200);
+
+            return response;
+        }
+    }
+
+    private static HttpResponse newResponse(Integer statusCode) {
+        HttpResponse response = new HttpResponse();
+
+        response.setStatusCode(statusCode);
+        response.setBody('[{"fileDownloadUri":"test"}]');
+
+        return response;
+    }
+
+
+}
